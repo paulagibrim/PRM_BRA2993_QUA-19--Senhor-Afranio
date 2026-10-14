@@ -63,12 +63,41 @@ async def mentalista(ctx):
 
 
 @bot.command()
-async def faa(ctx):
+async def fahh(ctx):
+    # Verificar se quem digitou o comando está em uma chamada de voz
+    if not ctx.author.voice:
+        await ctx.send("❌ Você precisa estar em um canal de voz!")
+        return
 
-    with open('sounds/fahhhhh.mp3', 'rb') as f:  # noqa: ASYNC230
-        sound = discord.File(f)
+    # Ver qual canal o autor da mensagem está
+    canal = ctx.author.voice.channel
 
-    await ctx.send(file=sound)
+    # Conectar numa nova chamada ou continuar conectado (caso já esteja na correta)
+    voice_client = discord.utils.get(bot.voice_clients, guild=ctx.guild)
+    if not voice_client:
+        voz = await canal.connect()
+    elif voice_client.channel != canal:
+        await voice_client.move_to(canal)
+        voz = voice_client
+    else:
+        voz = voice_client
+
+    # Se tiver tocando, para
+    if voz.is_playing():
+        voz.stop()
+
+    # Pegar o caminho do som que vai tocar
+    caminho_audio = "sounds/fahhhhh.mp3"
+
+    # Tocar o som
+    voz.play(discord.FFmpegPCMAudio(caminho_audio))
+
+    # Espera terminar
+    while voz.is_playing():
+        await asyncio.sleep(1)
+
+    # Desconectar do canal de voz
+    await voz.disconnect()
 
 
 @bot.command()
