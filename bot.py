@@ -1,10 +1,11 @@
-import discord
+import os
 import random
+
+import discord
 from discord.ext import commands
 
 from bot_logic import gen_pass
 from config import TOKEN
-import os
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -34,4 +35,15 @@ async def meme(ctx):
         image = discord.File(f)
     await ctx.send(file=image)
 
+@bot.command()
+async def mentalista(ctx):
+
+    text = "*Você mente pelo olhar... caso encerrado.*"
+
+    with open('sounds/the_mentalist_edit.mp3', 'rb') as f:  # noqa: ASYNC230
+        sound = discord.File(f)
+
+    await ctx.send(text, file=sound)
+
+    
 bot.run(TOKEN)
