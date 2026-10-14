@@ -45,5 +45,14 @@ async def mentalista(ctx):
 
     await ctx.send(text, file=sound)
 
-    
+
+@bot.command()
+async def faa(ctx):
+
+    with open('sounds/fahhhhh.mp3', 'rb') as f:  # noqa: ASYNC230
+        sound = discord.File(f)
+
+    await ctx.send(file=sound)
+
+
 bot.run(TOKEN)
